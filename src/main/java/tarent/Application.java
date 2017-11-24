@@ -9,12 +9,12 @@ import tarent.demo.DemoComponent;
 @SpringBootApplication
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(Application.class);
     }
 
     @Bean
-    public CommandLineRunner demo(DemoComponent dc) {
+    public CommandLineRunner demo(final DemoComponent dc) {
         return (args) -> {
             dc.createPersons();
             dc.printPersons();

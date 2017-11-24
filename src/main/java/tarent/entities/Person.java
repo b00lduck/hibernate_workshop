@@ -1,18 +1,23 @@
 package tarent.entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.*;
 
 @Entity
 public class Person {
 
     @Id
-    @SequenceGenerator(name = "person_id_seq", sequenceName = "person_seq", allocationSize=1)
+    @SequenceGenerator(name = "person_id_seq", sequenceName = "person_seq", allocationSize=50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
     private Long id;
 
     private String firstName;
 
     private String lastName;
+
+    @OneToMany
+    private Collection<Address> addresses = new ArrayList<>();
 
     protected Person() {}
 

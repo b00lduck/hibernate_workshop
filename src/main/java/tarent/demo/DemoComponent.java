@@ -1,5 +1,6 @@
 package tarent.demo;
 
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -11,55 +12,39 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import tarent.Application;
 import tarent.entities.Person;
+import tarent.random.RandomDataGenerator;
+import tarent.service.PersonService;
 
 @Component
 public class DemoComponent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DemoComponent.class);
 
-    private final EntityManager em;
+    private final RandomDataGenerator randomDataGenerator;
 
-    public DemoComponent(final EntityManager em) {
-        Assert.notNull(em, "This component needs an entity manager");
-        this.em = em;
+    private final PersonService personService;
+
+    public DemoComponent(final PersonService personService, final RandomDataGenerator randomDataGenerator) {
+        Assert.notNull(randomDataGenerator, "This component needs a RandomDataGenerator");
+        this.randomDataGenerator = randomDataGenerator;
+
+        Assert.notNull(personService, "This component needs a PersonService");
+        this.personService = personService;
     }
 
-    @Transactional
     public void createPersons() {
-        // create a couple of persons
-        em.persist(new Person("Jack", "Bauer"));
-        em.persist(new Person("Chloe", "O'Brian"));
-        em.persist(new Person("Michelle", "Dessler"));
+        for (int i=0; i < 5000; i++) {
+            personService.createPerson(randomDataGenerator.getRandomPerson());
+        }
     }
 
-    @Transactional
     public void printPersons() {
 
-        final TypedQuery<Person> personsQuery = em.createQuery("FROM Person", Person.class);
-        final List<Person> allPersons = personsQuery.getResultList();
+        final Collection<Person> allPersons = personService.getAllPersons();
 
-        // fetch all persons
         LOGGER.info("Persons found:");
         for (final Person person : allPersons) {
             LOGGER.info(person.toString());
         }
-
-        /*
-        // fetch an individual customer by ID
-        Customer customer = repository.findOne(1L);
-        LOGGER.info("Customer found with findOne(1L):");
-        LOGGER.info("--------------------------------");
-        LOGGER.info(customer.toString());
-        LOGGER.info("");
-
-        // fetch customers by last name
-        LOGGER.info("Customer found with findByLastName('Bauer'):");
-        LOGGER.info("--------------------------------------------");
-        for (Customer bauer : repository.findByLastName("Bauer")) {
-            LOGGER.info(bauer.toString());
-        }
-        LOGGER.info("");
-        */
     }
-
 }
