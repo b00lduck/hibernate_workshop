@@ -7,8 +7,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import tarent.entities.Address;
 import tarent.entities.Person;
 
+@Transactional
 @Component
 public class PersonService {
 
@@ -19,12 +21,18 @@ public class PersonService {
         this.em = em;
     }
 
-    @Transactional
-    public void createPerson(final Person p) {
+     public void createPerson(final Person p) {
         em.persist(p);
     }
 
-    @Transactional
+    public void createPersonWithAddresses(final Person p, final Collection<Address> addresses) {
+        p.getAddresses().addAll(addresses);
+        for(final Address address : addresses) {
+            address.setPerson(p);
+        }
+        em.persist(p);
+    }
+
     public Collection<Person> getAllPersons() {
         final TypedQuery<Person> personsQuery = em.createQuery("FROM Person", Person.class);
         return personsQuery.getResultList();

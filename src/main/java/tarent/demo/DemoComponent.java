@@ -1,5 +1,6 @@
 package tarent.demo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import tarent.Application;
+import tarent.entities.Address;
 import tarent.entities.Person;
 import tarent.random.RandomDataGenerator;
 import tarent.service.PersonService;
@@ -33,8 +35,12 @@ public class DemoComponent {
     }
 
     public void createPersons() {
-        for (int i=0; i < 5000; i++) {
-            personService.createPerson(randomDataGenerator.getRandomPerson());
+        for (int i=0; i < 100; i++) {
+            final Person person = randomDataGenerator.getRandomPerson();
+            final Collection<Address> addresses = new ArrayList<>();
+            addresses.add(randomDataGenerator.getRandomAddress());
+            addresses.add(randomDataGenerator.getRandomAddress());
+            personService.createPersonWithAddresses(person, addresses);
         }
     }
 

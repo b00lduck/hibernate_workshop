@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import tarent.entities.Address;
 import tarent.entities.Person;
 
 @Component
@@ -20,10 +20,10 @@ public final class RandomDataGenerator {
     private final List<String> firstnames;
     private final List<String> lastnames;
     private final List<String> streets;
-
-    private Random randomGenerator = new Random();
+    private final List<String> cities;
 
     public RandomDataGenerator(final ResourceLoader resourceLoader) throws IOException {
+        Assert.notNull(resourceLoader, "This component needs a ResourceLoader");
         firstnames = createListFromResource(
                 resourceLoader.getResource("classpath:testdata/firstnames").getInputStream());
 
@@ -32,12 +32,24 @@ public final class RandomDataGenerator {
 
         streets = createListFromResource(
                 resourceLoader.getResource("classpath:testdata/streets").getInputStream());
+
+        cities = createListFromResource(
+                resourceLoader.getResource("classpath:testdata/cities").getInputStream());
     }
 
     public Person getRandomPerson() {
         final String firstName = getRandomItem(firstnames);
         final String lastName = getRandomItem(lastnames);
         return new Person(firstName, lastName);
+    }
+
+    public Address getRandomAddress() {
+        final String street = getRandomItem(streets);
+        final String number = String.valueOf(ThreadLocalRandom.current().nextInt(1000));
+        final String address = street + " " + number;
+        final String zip = String.valueOf(ThreadLocalRandom.current().nextInt(10000));
+        final String city = getRandomItem(cities);
+        return new Address(address, zip, city);
     }
 
     private static List<String> createListFromResource(final InputStream firstnamesStream) throws IOException {
