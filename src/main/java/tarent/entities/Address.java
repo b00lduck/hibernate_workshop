@@ -1,13 +1,21 @@
 package tarent.entities;
 
 import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 public class Address {
 
     @Id
-    @SequenceGenerator(name = "address_id_seq", sequenceName = "address_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_seq")
+    @GenericGenerator(
+            name = "address_id_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {@Parameter(name = "sequence_name", value = "address_seq")}
+    )
+    // depecated:
+    // @SequenceGenerator(name = "address_id_generator", sequenceName = "address_seq", allocationSize=1)
+    @GeneratedValue(generator = "address_id_generator")
     private Long id;
 
     private String address;
@@ -30,10 +38,6 @@ public class Address {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
     }
 
     public String getAddress() {

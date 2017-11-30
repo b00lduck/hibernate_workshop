@@ -3,13 +3,20 @@ package tarent.entities;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Person {
 
+    private org.hibernate.id.enhanced.SequenceStyleGenerator x;
+
     @Id
-    @SequenceGenerator(name = "person_id_seq", sequenceName = "person_seq", allocationSize=50)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
+    @GenericGenerator(
+            name = "person_id_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {@org.hibernate.annotations.Parameter(name = "sequence_name", value = "person_seq")}
+    )
+    @GeneratedValue(generator = "person_id_generator")
     private Long id;
 
     private String firstName;
