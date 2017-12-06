@@ -8,12 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 import tarent.entities.Customer;
 import tarent.entities.Order;
 import tarent.random.RandomDataGenerator;
 import tarent.service.CustomerService;
-import tarent.service.ThingService;
+import tarent.service.SimpleService;
 
 @Component
 public class ExampleComponent {
@@ -27,7 +26,7 @@ public class ExampleComponent {
     private CustomerService customerService;
 
     @Autowired
-    private ThingService thingService;
+    private SimpleService simpleDataService;
 
     public void Example1() {
         // In this Example we show how SQL logging ca be enabled
@@ -36,10 +35,21 @@ public class ExampleComponent {
 
     public void Example2() {
         // In this Example we show how to persist a most simple entity
-        thingService.createThing("Book", "something you can read");
-        thingService.createThing("Banana", "something you can eat");
+        simpleDataService.createSimple("Book", "something you can read");
+        simpleDataService.createSimple("Banana", "something you can eat");
     }
 
+    public void Example3() {
+        // In this Example we show how to persist a simple entity with an embedded field
+        simpleDataService.createSimpleEmbedded("Movie", "something you can watch");
+        simpleDataService.createSimpleEmbedded("Water", "something you can drink");
+    }
+
+    public void Example4() {
+        // In this Example we show how to persist a simple entity with an embedded list of strings
+        simpleDataService.createSimpleEmbeddedList("Heisenberg", "uncertainty principle");
+        simpleDataService.createSimpleEmbeddedList("Newton", "falling Apple", "9.81m/s²");
+    }
 
     private void createCustomers() {
         for (int i=0; i < 10; i++) {

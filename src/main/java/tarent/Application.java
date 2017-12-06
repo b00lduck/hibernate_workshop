@@ -17,8 +17,18 @@ public class Application {
     public CommandLineRunner demo(final ExampleComponent exampleComponent) {
         return (args) -> {
 
+            // Logging example
             //exampleComponent.Example1();
-            exampleComponent.Example2();
+
+            // Persist simple entity
+            //exampleComponent.Example2();
+
+            // Simple entity with embedded field
+            //exampleComponent.Example3();
+
+            // Simple entity with embedded list of strings
+            exampleComponent.Example4();
+
 
         };
     }

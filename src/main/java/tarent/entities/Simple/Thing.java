@@ -1,11 +1,9 @@
-package tarent.entities;
+package tarent.entities.Simple;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "THING")
 public class Thing {
 
 	@Id
