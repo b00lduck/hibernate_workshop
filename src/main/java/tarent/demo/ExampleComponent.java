@@ -101,7 +101,7 @@ public class ExampleComponent {
 
     private void printAllCustomerNames() {
 
-        final Collection<Customer> customers = customerService.getAllCustomers();
+        final Collection<Customer> customers = customerService.getAllCustomersNamed();
 
         System.out.format("\n\n%4s | %20s | %20s\n", "ID", "Firstname", "Lastname");
         System.out.format("--------------------------------------------------------\n");

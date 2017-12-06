@@ -47,7 +47,14 @@ public class CustomerService {
     }
 
     public Collection<Customer> getAllCustomers() {
-        final TypedQuery<Customer> customersQuery = em.createQuery("FROM Customer", Customer.class);
+        final TypedQuery<Customer> customersQuery =
+                em.createQuery("FROM Customer", Customer.class);
+        return customersQuery.getResultList();
+    }
+
+    public Collection<Customer> getAllCustomersNamed() {
+        final TypedQuery<Customer> customersQuery =
+                em.createNamedQuery("Customer.findAll", Customer.class);
         return customersQuery.getResultList();
     }
 
