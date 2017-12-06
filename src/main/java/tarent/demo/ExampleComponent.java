@@ -6,32 +6,43 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import tarent.entities.Customer;
 import tarent.entities.Order;
 import tarent.random.RandomDataGenerator;
 import tarent.service.CustomerService;
+import tarent.service.ThingService;
 
 @Component
-public class DemoComponent {
+public class ExampleComponent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DemoComponent.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleComponent.class);
 
-    private final RandomDataGenerator randomDataGenerator;
+    @Autowired
+    private RandomDataGenerator randomDataGenerator;
 
-    private final CustomerService customerService;
+    @Autowired
+    private CustomerService customerService;
 
-    public DemoComponent(final CustomerService customerService, final RandomDataGenerator randomDataGenerator) {
-        Assert.notNull(randomDataGenerator, "This component needs a RandomDataGenerator");
-        this.randomDataGenerator = randomDataGenerator;
+    @Autowired
+    private ThingService thingService;
 
-        Assert.notNull(customerService, "This component needs a PersonService");
-        this.customerService = customerService;
+    public void Example1() {
+        // In this Example we show how SQL logging ca be enabled
+        createCustomers();
     }
 
-    public void createCustomers() {
-        for (int i=0; i < 100; i++) {
+    public void Example2() {
+        // In this Example we show how to persist a most simple entity
+        thingService.createThing("Book", "something you can read");
+        thingService.createThing("Banana", "something you can eat");
+    }
+
+
+    private void createCustomers() {
+        for (int i=0; i < 10; i++) {
             final Customer customer = new Customer(randomDataGenerator.getRandomPerson());
             customer.getBillingAddresses().add(randomDataGenerator.getRandomAddress());
             customer.getDeliveryAddresses().add(randomDataGenerator.getRandomAddress());
@@ -41,13 +52,13 @@ public class DemoComponent {
     }
 
     @Transactional
-    public void addOrderToFirstCustomer() {
+    protected void addOrderToFirstCustomer() {
         final Customer customerReference = customerService.getReferenceById(50L);
         customerService.addOrder(customerReference, randomDataGenerator.getRandomOrder());
     }
 
 
-    public void printCustomers() {
+    private void printCustomers() {
 
         final Collection<Customer> customers = customerService.getAllCustomers();
 

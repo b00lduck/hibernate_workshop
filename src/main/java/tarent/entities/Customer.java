@@ -6,13 +6,20 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "CUSTOMERS")
 public class Customer {
 
+    @GenericGenerator(
+            name = "customer_id_seq",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {@Parameter(name = "sequence_name", value = "CUSTOMER_SEQ")}
+    )
     @Id
-    @SequenceGenerator(name = "customer_id_seq", sequenceName = "customer_seq", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
     @Column(name="ID")
     private Long id;

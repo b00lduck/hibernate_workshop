@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import tarent.demo.DemoComponent;
+import tarent.demo.ExampleComponent;
 
 @SpringBootApplication
 public class Application {
@@ -14,11 +14,12 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo(final DemoComponent dc) {
+    public CommandLineRunner demo(final ExampleComponent exampleComponent) {
         return (args) -> {
-            dc.createCustomers();
-            dc.addOrderToFirstCustomer();
-            dc.printCustomers();
+
+            //exampleComponent.Example1();
+            exampleComponent.Example2();
+
         };
     }
 

@@ -2,13 +2,20 @@ package tarent.entities;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "ORDERS")
 public final class Order {
 
     @Id
-    @SequenceGenerator(name = "order_id_seq", sequenceName = "order_seq", allocationSize = 50)
+    @GenericGenerator(
+            name = "order_id_seq",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {@Parameter(name = "sequence_name", value = "ORDER_SEQ")}
+    )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     private Long id;
 
