@@ -27,7 +27,10 @@ public class Application {
             //exampleComponent.Example3();
 
             // Simple entity with embedded list of strings
-            exampleComponent.Example4();
+            //exampleComponent.Example4();
+
+            // OneToOne shared PK example
+            exampleComponent.Example5();
 
 
         };

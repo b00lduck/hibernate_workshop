@@ -7,8 +7,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import tarent.entities.Customer;
-import tarent.entities.Order;
+import tarent.entities.Advanced.Customer;
+import tarent.entities.Advanced.Order;
+import tarent.entities.Advanced.Person;
 
 @Transactional
 @Component
@@ -22,8 +23,10 @@ public class CustomerService {
         this.em = em;
     }
 
-     public void createCustomer(final Customer p) {
-        em.persist(p);
+    public void createCustomer(final Person person) {
+        em.persist(person);
+        final Customer customer = new Customer(person.getId(), person);
+        em.persist(customer);
     }
 
     public void addOrder(final Customer customer, final Order order) {

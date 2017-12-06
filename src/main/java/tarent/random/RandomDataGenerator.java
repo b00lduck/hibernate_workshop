@@ -11,10 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import tarent.entities.Address;
-import tarent.entities.Customer;
-import tarent.entities.Order;
-import tarent.entities.Person;
+import tarent.entities.Advanced.Address;
+import tarent.entities.Advanced.Order;
+import tarent.entities.Advanced.Person;
 
 @Component
 public final class RandomDataGenerator {

@@ -1,4 +1,4 @@
-package tarent.entities;
+package tarent.entities.Advanced;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,25 +6,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "CUSTOMERS")
 public class Customer {
 
-    @GenericGenerator(
-            name = "customer_id_seq",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {@Parameter(name = "sequence_name", value = "CUSTOMER_SEQ")}
-    )
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
-    @Column(name="ID")
     private Long id;
 
-    @Embedded
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private Person person;
 
     @ElementCollection
@@ -38,7 +29,8 @@ public class Customer {
 
     protected Customer() {}
 
-    public Customer(final Person person) {
+    public Customer(final Long id, final Person person) {
+        this.id = id;
         this.person = person;
     }
 

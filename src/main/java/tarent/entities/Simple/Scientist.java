@@ -1,7 +1,8 @@
 package tarent.entities.Simple;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
@@ -15,7 +16,7 @@ public class Scientist {
 
 	@ElementCollection
     @CollectionTable(name = "IDEAS")
-    private Collection<String> ideas = new ArrayList<>();
+    private Set<String> ideas = new HashSet<>();
 
     public Collection<String> getIdeas() {
         return ideas;

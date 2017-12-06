@@ -1,4 +1,4 @@
-package tarent.entities;
+package tarent.entities.Advanced;
 
 import java.util.Objects;
 import javax.persistence.*;

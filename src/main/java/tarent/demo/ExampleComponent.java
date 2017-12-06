@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tarent.entities.Customer;
-import tarent.entities.Order;
+import tarent.entities.Advanced.Customer;
+import tarent.entities.Advanced.Order;
 import tarent.random.RandomDataGenerator;
 import tarent.service.CustomerService;
 import tarent.service.SimpleService;
@@ -30,7 +30,7 @@ public class ExampleComponent {
 
     public void Example1() {
         // In this Example we show how SQL logging ca be enabled
-        createCustomers();
+        simpleDataService.createSimple("Book", "something you can read");
     }
 
     public void Example2() {
@@ -48,9 +48,20 @@ public class ExampleComponent {
     public void Example4() {
         // In this Example we show how to persist a simple entity with an embedded list of strings
         simpleDataService.createSimpleEmbeddedList("Heisenberg", "uncertainty principle");
-        simpleDataService.createSimpleEmbeddedList("Newton", "falling Apple", "9.81m/s²");
+        simpleDataService.createSimpleEmbeddedList("Newton", "falling Apple", "9.81m/s²", "gravity", "gravity");
     }
 
+    public void Example5() {
+        // In this example we show the OneToOne association with PK sharing
+        customerService.createCustomer(randomDataGenerator.getRandomPerson());
+    }
+
+    public void Example6() {
+        // In this example we show a OneToMany/ManyToOne association with foreign key
+        customerService.createCustomer(randomDataGenerator.getRandomPerson());
+    }
+
+    /*
     private void createCustomers() {
         for (int i=0; i < 10; i++) {
             final Customer customer = new Customer(randomDataGenerator.getRandomPerson());
@@ -60,6 +71,7 @@ public class ExampleComponent {
             customerService.createCustomer(customer);
         }
     }
+    */
 
     @Transactional
     protected void addOrderToFirstCustomer() {
