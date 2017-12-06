@@ -56,38 +56,65 @@ public class ExampleComponent {
         customerService.createCustomer(randomDataGenerator.getRandomPerson());
     }
 
-    public void Example6() {
-        // In this example we show a OneToMany/ManyToOne association with foreign key
-        customerService.createCustomer(randomDataGenerator.getRandomPerson());
-    }
 
-    /*
-    private void createCustomers() {
-        for (int i=0; i < 10; i++) {
-            final Customer customer = new Customer(randomDataGenerator.getRandomPerson());
-            customer.getBillingAddresses().add(randomDataGenerator.getRandomAddress());
-            customer.getDeliveryAddresses().add(randomDataGenerator.getRandomAddress());
-            customer.getDeliveryAddresses().add(randomDataGenerator.getRandomAddress());
-            customerService.createCustomer(customer);
+    public void Example6() {
+        // In this example we show a unidirectional OneToMany association with foreign key
+        for(int i=0; i<10; i++) {
+            final Customer newCustomer = customerService.createCustomer(randomDataGenerator.getRandomPerson());
+            customerService.addBillingAddress(newCustomer, randomDataGenerator.getRandomAddress());
+            customerService.addDeliveryAddress(newCustomer, randomDataGenerator.getRandomAddress());
+            customerService.addDeliveryAddress(newCustomer, randomDataGenerator.getRandomAddress());
         }
     }
-    */
 
-    @Transactional
-    protected void addOrderToFirstCustomer() {
-        final Customer customerReference = customerService.getReferenceById(50L);
-        customerService.addOrder(customerReference, randomDataGenerator.getRandomOrder());
+    public void Example7() {
+        for(int i=0; i<10; i++) {
+            final Customer newCustomer = customerService.createCustomer(randomDataGenerator.getRandomPerson());
+            customerService.addBillingAddress(newCustomer, randomDataGenerator.getRandomAddress());
+            customerService.addOrder(newCustomer, randomDataGenerator.getRandomOrder());
+        }
     }
 
+    public void Example8() {
+        for(int i=0; i<10; i++) {
+            final Customer newCustomer = customerService.createCustomer(randomDataGenerator.getRandomPerson());
 
-    private void printCustomers() {
+            // Add one billing address to the customer
+            customerService.addBillingAddress(newCustomer, randomDataGenerator.getRandomAddress());
+
+            // Add a random number of delivery addresses to the customer
+            final int numDeliveryAddresses = randomDataGenerator.getRandomInt(3);
+            for (int j=0; j<numDeliveryAddresses; j++) {
+                customerService.addDeliveryAddress(newCustomer, randomDataGenerator.getRandomAddress());
+            }
+
+            // Add a random number of orders to the customer
+            final int numOrders = randomDataGenerator.getRandomInt(10);
+            for (int j=0; j<numOrders; j++) {
+                customerService.addOrder(newCustomer, randomDataGenerator.getRandomOrder());
+            }
+        }
+
+        printAllCustomerNames();
+
+    }
+
+    private void printAllCustomerNames() {
 
         final Collection<Customer> customers = customerService.getAllCustomers();
 
-        LOGGER.info("Customers found:");
+        System.out.format("\n\n%4s | %20s | %20s\n", "ID", "Firstname", "Lastname");
+        System.out.format("--------------------------------------------------------\n");
         for (final Customer customer : customers) {
-            LOGGER.info(customer.toString());
+
+            System.out.format("%4d | %20s | %20s\n",
+                    customer.getPerson().getId(),
+                    customer.getPerson().getFirstName(),
+                    customer.getPerson().getLastName());
+
         }
+
+        System.out.format("--------------------------------------------------------\n\n");
     }
 
     private void createOrder(final Customer customer) {

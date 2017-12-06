@@ -30,8 +30,16 @@ public class Application {
             //exampleComponent.Example4();
 
             // OneToOne shared PK example
-            exampleComponent.Example5();
+            //exampleComponent.Example5();
 
+            // OneToMany FK join unidirectional example
+            //exampleComponent.Example6();
+
+            // OneToMany FK join bidirectional example
+            //exampleComponent.Example7();
+
+            // Generate some data and issue some queries
+            exampleComponent.Example8();
 
         };
     }

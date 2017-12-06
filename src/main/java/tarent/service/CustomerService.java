@@ -7,13 +7,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import tarent.entities.Advanced.Address;
 import tarent.entities.Advanced.Customer;
 import tarent.entities.Advanced.Order;
 import tarent.entities.Advanced.Person;
 
 @Transactional
 @Component
-
 public class CustomerService {
 
     private final EntityManager em;
@@ -23,20 +23,27 @@ public class CustomerService {
         this.em = em;
     }
 
-    public void createCustomer(final Person person) {
+    public Customer createCustomer(final Person person) {
         em.persist(person);
         final Customer customer = new Customer(person.getId(), person);
         em.persist(customer);
+        return customer;
+    }
+
+    public void addBillingAddress(final Customer customer, final Address address) {
+        final Customer attachedCustomer = em.merge(customer);
+        attachedCustomer.getBillingAddresses().add(address);
+    }
+
+    public void addDeliveryAddress(final Customer customer, final Address address) {
+        final Customer attachedCustomer = em.merge(customer);
+        attachedCustomer.getDeliveryAddresses().add(address);
     }
 
     public void addOrder(final Customer customer, final Order order) {
-        customer.getOrders().add(order);
-        order.setCustomer(customer);
-        em.persist(customer);
-    }
-
-    public Customer getReferenceById(final Long id) {
-        return em.getReference(Customer.class, id);
+        final Customer attachedCustomer = em.merge(customer);
+        attachedCustomer.getOrders().add(order);
+        order.setCustomer(attachedCustomer);
     }
 
     public Collection<Customer> getAllCustomers() {

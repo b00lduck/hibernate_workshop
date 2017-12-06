@@ -53,6 +53,10 @@ public final class RandomDataGenerator {
         return new Address(address, zip, city);
     }
 
+    public int getRandomInt(final int bound) {
+        return ThreadLocalRandom.current().nextInt(bound);
+    }
+
     public Order getRandomOrder() {
         return new Order(String.valueOf(ThreadLocalRandom.current().nextInt(10000)));
     }
