@@ -8,8 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Person {
 
-    private org.hibernate.id.enhanced.SequenceStyleGenerator x;
-
     @Id
     @GenericGenerator(
             name = "person_id_generator",
