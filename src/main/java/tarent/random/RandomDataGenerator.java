@@ -12,6 +12,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import tarent.entities.Address;
+import tarent.entities.Customer;
+import tarent.entities.Order;
 import tarent.entities.Person;
 
 @Component
@@ -52,6 +54,10 @@ public final class RandomDataGenerator {
         return new Address(address, zip, city);
     }
 
+    public Order getRandomOrder() {
+        return new Order(String.valueOf(ThreadLocalRandom.current().nextInt(10000)));
+    }
+
     private static List<String> createListFromResource(final InputStream firstnamesStream) throws IOException {
         final List<String> ret = new ArrayList<>();
         final BufferedReader br = new BufferedReader(new InputStreamReader(firstnamesStream));
@@ -66,6 +72,8 @@ public final class RandomDataGenerator {
     private static String getRandomItem(final List<String> listOfStrings) {
         return listOfStrings.get(ThreadLocalRandom.current().nextInt(listOfStrings.size()));
     }
+
+
 
 }
 

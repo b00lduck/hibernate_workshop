@@ -16,8 +16,9 @@ public class Application {
     @Bean
     public CommandLineRunner demo(final DemoComponent dc) {
         return (args) -> {
-            dc.createPersons();
-            dc.printPersons();
+            dc.createCustomers();
+            dc.addOrderToFirstCustomer();
+            dc.printCustomers();
         };
     }
 
